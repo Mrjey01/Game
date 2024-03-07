@@ -1,28 +1,30 @@
 import pygame
-from projectile1 import Projectile1
-from projectile2 import Projectile2
+from projectile import Projectile
+
 
 class Player(pygame.sprite.Sprite):
-    
-    def __init__(self):
-        super().__init__
-        self.health = 100
-        self.max_health = 100
-        self.attack = 10
-        self.velocity = 2
+
+    def __init__(self, game):
+        super().__init__()
+        self.game = game
+        self.attack = 1
+        self.velocity = 3
         self.all_projectiles = pygame.sprite.Group()
-        self.image = pygame.image.load('assets/rocket/F1.png')
-        self.image = pygame.transform.scale(self.image, (100, 100))
+        self.image = pygame.transform.scale(pygame.image.load('assets/rocket/ShipA.png'), (100, 100))
         self.rect = self.image.get_rect()
         self.rect.x = 700
         self.rect.y = 600
-        
-    def launch_projectile(self):
-        self.all_projectiles.add(Projectile1(self))
-        self.all_projectiles.add(Projectile2(self))
-        
-    def move_right(self):
-        self.rect.x += self.velocity
-        
-    def move_left(self):
-        self.rect.x -= self.velocity
+
+    def damage(self):
+        self.game.game_over()
+
+    def launch_projectile(self, side):
+        projectile = Projectile(self)
+        projectile.rect.x = self.rect.x + side
+        self.all_projectiles.add(projectile)
+
+    def move(self, direction):
+        if direction == 'right':
+            self.rect.x += self.velocity
+        elif direction == 'left':
+            self.rect.x -= self.velocity
