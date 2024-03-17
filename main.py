@@ -8,6 +8,8 @@ SCREEN_SCALE = (1640, 780)
 pygame.display.set_caption("Comet Fall")
 screen = pygame.display.set_mode(SCREEN_SCALE, pygame.FULLSCREEN)
 background = pygame.transform.scale(pygame.image.load('assets/bg.jpg'), SCREEN_SCALE)
+y_background = 0
+scroll_speed = 2
 
 game = Game()
 
@@ -22,14 +24,13 @@ save_pos_exit = exit_button_rect.x
 
 # Running the game
 running = True
-y_background = 0
-scroll_speed = 2
+
+# Score
 score = 0
 font = pygame.font.Font(None, 36)
 with open("best_score.txt", "r") as file:
     highscore = int(file.read())
-
-
+    
 def display_score():
     score_text = font.render("Score: " + str(score), True, (255, 255, 255))
     screen.blit(score_text, (10, 10))
@@ -39,6 +40,7 @@ def display_score():
 
 while running:
     for event in pygame.event.get():
+        # Close the game
         if event.type == pygame.QUIT:
             running = False
             with open("best_score.txt", "w") as file:
@@ -60,8 +62,9 @@ while running:
             # Check if cursor is on play button
             if play_button_rect.collidepoint(event.pos):
                 score = 0
-                # Launch the game
+                # Play the game
                 game.start()
+            # Exit the game
             elif exit_button_rect.collidepoint(event.pos):
                 running = False
                 with open("best_score.txt", "w") as file:
@@ -81,11 +84,11 @@ while running:
         game.update(screen)
         display_score()
         score += 1
-        # Display menu buttons
+        # Hide menu buttons
         play_button_rect.x += 1000
         exit_button_rect.x += 1000
     else:
-        play_button_rect.x = save_pos_play
+        play_button_rect.x = save_pos_play # Show menu buttons
         exit_button_rect.x = save_pos_exit
         screen.blit(background, (0, 0))
         screen.blit(exit_button, exit_button_rect)  # Add play button
