@@ -1,3 +1,3 @@
 Jonatas Ribeiro Lautenschlager
-Jonatas.ribeiro-lautenschlager@epita.fr /n
+Jonatas.ribeiro-lautenschlager@epita.fr \n
 Bonus:
