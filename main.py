@@ -4,9 +4,9 @@ from game import Game
 pygame.init()
 
 # Screen and background
-SCREEN_SCALE = (1540, 780)
+SCREEN_SCALE = (1640, 780)
 pygame.display.set_caption("Comet Fall")
-screen = pygame.display.set_mode(SCREEN_SCALE)
+screen = pygame.display.set_mode(SCREEN_SCALE, pygame.FULLSCREEN)
 background = pygame.transform.scale(pygame.image.load('assets/bg.jpg'), SCREEN_SCALE)
 
 game = Game()
@@ -44,6 +44,7 @@ while running:
             with open("best_score.txt", "w") as file:
                 file.write(str(highscore))
             pygame.quit()
+            break
 
         # Launch projectile
         elif event.type == pygame.KEYDOWN:
@@ -62,11 +63,15 @@ while running:
                 # Launch the game
                 game.start()
             elif exit_button_rect.collidepoint(event.pos):
+                running = False
                 with open("best_score.txt", "w") as file:
                     file.write(str(highscore))
                 # Quit the game
                 pygame.quit()
+                break
 
+    if not running:  # Stop the game if closed
+        break
     # Display background
     if game.is_playing:
         # Display background moving
@@ -76,8 +81,9 @@ while running:
         game.update(screen)
         display_score()
         score += 1
-        play_button_rect.x = 2000
-        exit_button_rect.x = 2000
+        # Display menu buttons
+        play_button_rect.x += 1000
+        exit_button_rect.x += 1000
     else:
         play_button_rect.x = save_pos_play
         exit_button_rect.x = save_pos_exit
