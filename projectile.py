@@ -14,6 +14,7 @@ class Projectile(pygame.sprite.Sprite):
     def move(self):
         self.rect.y -= self.velocity
 
+        # Deal damage and remove the projectile
         for monster in self.player.game.check_collision(self, self.player.game.all_monsters):
             self.kill()
             monster.damage(self.player.attack)
