@@ -11,7 +11,7 @@ class Meteor(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(pygame.image.load('assets/asteroids/meteor1.png'), (size, size))
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(0, 1500)
-        self.rect.y = -500 + random.randint(0, 300)
+        self.rect.y = -500 + random.randint(0, 300) # Spawn outside the screen
         self.velocity = 3
 
     def respawn(self):
@@ -22,7 +22,8 @@ class Meteor(pygame.sprite.Sprite):
         self.rect.y += self.velocity
         if self.game.check_collision(self, self.game.all_players):
             self.game.player.damage()
-
+            
+        # Respawn if outside the screen
         if self.rect.y > 850:
             self.velocity += 0.2
             self.respawn()
