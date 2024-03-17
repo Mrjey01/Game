@@ -14,10 +14,11 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 700
         self.rect.y = 600
-
+        
+    # Game over
     def damage(self):
         self.game.game_over()
-
+    
     def launch_projectile(self, side):
         projectile = Projectile(self)
         projectile.rect.x = self.rect.x + side
