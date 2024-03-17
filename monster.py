@@ -28,7 +28,7 @@ class Monster(pygame.sprite.Sprite):
         self.health = self.max_health
 
     def damage(self, amount):
-        # Deal damage
+        # Take damage
         self.health -= amount
         if self.health <= 0:
             self.respawn()
@@ -39,6 +39,7 @@ class Monster(pygame.sprite.Sprite):
         if self.game.check_collision(self, self.game.all_players):
             self.game.player.damage()
 
+        # Respawn if outside the screen with a speed increased
         if self.rect.y > 850:
             self.velocity += 0.4
             self.respawn()
